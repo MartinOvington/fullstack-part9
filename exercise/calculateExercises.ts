@@ -17,14 +17,14 @@ const parseArgumentsArray = (args: Array<string>): Array<number> => {
   const exerciseHrs = new Array(args.length - 2);
 
   for (let i = 2; i < args.length; i++) {
-    let ans = Number(args[i]);
+    const ans = Number(args[i]);
     if (!isNaN(ans)) {
       exerciseHrs[i - 2] = ans;
     } else {
       throw new Error('One or more arguments was not a number');
     }
   }
-  return exerciseHrs;
+  return exerciseHrs as number[];
 };
 
 const calculateExercises = (exerciseHrs: Array<number>): Result => {
