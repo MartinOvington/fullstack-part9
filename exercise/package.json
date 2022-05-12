@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "calculateBmi": "ts-node calculateBmi.ts",
-    "calculateExercises": "ts-node calculateExercises.ts"
+    "calculateExercises": "ts-node calculateExercises.ts",
+    "dev": "ts-node-dev index.ts",
+    "start": "ts-node index.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^17.0.32"
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.32",
+    "ts-node-dev": "^1.1.8"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }
