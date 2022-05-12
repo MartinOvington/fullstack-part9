@@ -10,12 +10,29 @@ interface Result {
 
 const TARGET = 1;
 
-const calculateExercises = (trainingHrs: Array<number>): Result => {
-  const periodLength = trainingHrs.length;
-  const trainingDays = trainingHrs.filter((hrs) => hrs > 0).length;
+const parseArgumentsArray = (args: Array<string>): Array<number> => {
+  if (args.length < 3) {
+    throw new Error('Too few arguments');
+  }
+  const exerciseHrs = new Array(args.length - 2);
+
+  for (let i = 2; i < args.length; i++) {
+    let ans = Number(args[i]);
+    if (!isNaN(ans)) {
+      exerciseHrs[i - 2] = ans;
+    } else {
+      throw new Error('One or more arguments was not a number');
+    }
+  }
+  return exerciseHrs;
+};
+
+const calculateExercises = (exerciseHrs: Array<number>): Result => {
+  const periodLength = exerciseHrs.length;
+  const trainingDays = exerciseHrs.filter((hrs) => hrs > 0).length;
   const average =
-    trainingHrs.reduce((a, b) => a + b) /
-    (trainingHrs.length === 0 ? 1 : trainingHrs.length);
+    exerciseHrs.reduce((a, b) => a + b) /
+    (exerciseHrs.length === 0 ? 1 : exerciseHrs.length);
   const success = average >= TARGET;
   let rating;
   let ratingDescription;
@@ -42,4 +59,14 @@ const calculateExercises = (trainingHrs: Array<number>): Result => {
   };
 };
 
-console.log(calculateExercises([1, 0, 1.5, 2, 0, 1]));
+try {
+  const exerciseHrs = parseArgumentsArray(process.argv);
+  const result = calculateExercises(exerciseHrs);
+  console.log(result);
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.';
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}
