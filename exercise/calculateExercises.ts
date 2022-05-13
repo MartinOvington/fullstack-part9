@@ -8,8 +8,6 @@ interface Result {
   average: number;
 }
 
-const TARGET = 1;
-
 const parseArgumentsArray = (args: Array<string>): Array<number> => {
   if (args.length < 3) {
     throw new Error('Too few arguments');
@@ -27,26 +25,29 @@ const parseArgumentsArray = (args: Array<string>): Array<number> => {
   return exerciseHrs as number[];
 };
 
-const calculateExercises = (exerciseHrs: Array<number>): Result => {
+const calculateExercises = (
+  exerciseHrs: Array<number>,
+  target: number
+): Result => {
   const periodLength = exerciseHrs.length;
   const trainingDays = exerciseHrs.filter((hrs) => hrs > 0).length;
   const average =
-    exerciseHrs.reduce((a, b) => a + b) /
-    (exerciseHrs.length === 0 ? 1 : exerciseHrs.length);
-  const success = average >= TARGET;
+    exerciseHrs.length === 0
+      ? 0
+      : exerciseHrs.reduce((a, b) => a + b) / exerciseHrs.length;
+  const success = average >= target;
   let rating;
   let ratingDescription;
-  if (TARGET * 0.75 < average && average < TARGET) {
+  if (target * 0.75 < average && average < target) {
     rating = 2;
     ratingDescription = 'not too bad but could be better';
-  } else if (average >= TARGET) {
+  } else if (average >= target) {
     rating = 3;
     ratingDescription = 'very good';
   } else {
     rating = 1;
     ratingDescription = 'gotta try harder';
   }
-  const target = TARGET;
 
   return {
     periodLength,
@@ -61,7 +62,7 @@ const calculateExercises = (exerciseHrs: Array<number>): Result => {
 
 try {
   const exerciseHrs = parseArgumentsArray(process.argv);
-  const result = calculateExercises(exerciseHrs);
+  const result = calculateExercises(exerciseHrs, 1);
   console.log(result);
 } catch (error: unknown) {
   let errorMessage = 'Something bad happened.';
@@ -70,3 +71,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export default calculateExercises;
