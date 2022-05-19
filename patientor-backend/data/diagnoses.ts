@@ -1,6 +1,6 @@
-import { DiagnosesEntry } from '../src/types';
+import { Diagnoses } from '../src/types';
 
-const diagnosesEntries: Array<DiagnosesEntry> = [
+const diagnoses: Array<Diagnoses> = [
   {
     code: 'M24.2',
     name: 'Disorder of ligament',
@@ -82,4 +82,4 @@ const diagnosesEntries: Array<DiagnosesEntry> = [
   },
 ];
 
-export default diagnosesEntries;
+export default diagnoses;
