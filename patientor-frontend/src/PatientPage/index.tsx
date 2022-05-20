@@ -5,7 +5,7 @@ import { Box, Typography } from '@material-ui/core';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { apiBaseUrl } from '../constants';
-import { useStateValue } from '../state';
+import { useStateValue, setPatient } from '../state';
 import { Patient, Gender } from '../types';
 
 const PatientPage = () => {
@@ -18,7 +18,7 @@ const PatientPage = () => {
         const { data: patientFromApi } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        dispatch({ type: 'SET_PATIENT', payload: patientFromApi });
+        dispatch(setPatient(patientFromApi));
       } catch (e) {
         console.error(e);
       }

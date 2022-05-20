@@ -13,6 +13,30 @@ const initialState: State = {
   patient: null,
 };
 
+export const setPatientList = (patientList: Patient[]) => {
+  const action: Action = {
+    type: 'SET_PATIENT_LIST',
+    payload: patientList,
+  };
+  return action;
+};
+
+export const addPatient = (patient: Patient) => {
+  const action: Action = {
+    type: 'ADD_PATIENT',
+    payload: patient,
+  };
+  return action;
+};
+
+export const setPatient = (patient: Patient) => {
+  const action: Action = {
+    type: 'SET_PATIENT',
+    payload: patient,
+  };
+  return action;
+};
+
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
   initialState,
   () => initialState,
