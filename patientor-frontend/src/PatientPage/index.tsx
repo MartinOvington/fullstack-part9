@@ -43,8 +43,8 @@ const PatientPage = () => {
         ) : null}
       </Typography>
 
-      <p>ssn: {patient.ssn}</p>
-      <p>occupation: {patient.occupation}</p>
+      <Typography variant="body2">ssn: {patient.ssn}</Typography>
+      <Typography variant="body2">occupation: {patient.occupation}</Typography>
     </Box>
   );
 };
