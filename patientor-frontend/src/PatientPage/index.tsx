@@ -7,6 +7,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import { apiBaseUrl } from '../constants';
 import { useStateValue, setPatient } from '../state';
 import { Patient, Gender } from '../types';
+import EntryList from '../components/EntryList';
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
@@ -45,6 +46,7 @@ const PatientPage = () => {
 
       <Typography variant="body2">ssn: {patient.ssn}</Typography>
       <Typography variant="body2">occupation: {patient.occupation}</Typography>
+      <EntryList entries={patient.entries} />
     </Box>
   );
 };
