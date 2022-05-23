@@ -1,7 +1,14 @@
 import { Entry, Diagnosis } from '../types';
 import { Box, Typography } from '@material-ui/core';
+import { useStateValue } from '../state';
 
 const EntryList = ({ entries }: { entries: Entry[] }) => {
+  const [{ diagnoses }] = useStateValue();
+
+  const findDiagnosis = (code: string): string => {
+    const found = Object.values(diagnoses).find((d) => d.code === code);
+    return found ? found.name : '';
+  };
   const Entry = (entry: Entry) => (
     <Box>
       <Typography variant="body2">
@@ -11,7 +18,9 @@ const EntryList = ({ entries }: { entries: Entry[] }) => {
         <ul>
           {entry.diagnosisCodes.map((dc: Diagnosis['code']) => (
             <li key={dc}>
-              <Typography variant="body2">{dc}</Typography>
+              <Typography variant="body2">
+                {dc} {findDiagnosis(dc)}
+              </Typography>
             </li>
           ))}
         </ul>
