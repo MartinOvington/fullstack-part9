@@ -5,10 +5,6 @@ import { useStateValue } from '../state';
 const EntryList = ({ entries }: { entries: Entry[] }) => {
   const [{ diagnoses }] = useStateValue();
 
-  const findDiagnosis = (code: string): string => {
-    const found = Object.values(diagnoses).find((d) => d.code === code);
-    return found ? found.name : '';
-  };
   const Entry = (entry: Entry) => (
     <Box>
       <Typography variant="body2">
@@ -19,7 +15,7 @@ const EntryList = ({ entries }: { entries: Entry[] }) => {
           {entry.diagnosisCodes.map((dc: Diagnosis['code']) => (
             <li key={dc}>
               <Typography variant="body2">
-                {dc} {findDiagnosis(dc)}
+                {dc} {diagnoses[dc] ? diagnoses[dc].name : ''}
               </Typography>
             </li>
           ))}
