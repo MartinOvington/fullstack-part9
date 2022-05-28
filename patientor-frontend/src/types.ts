@@ -10,6 +10,8 @@ export enum Gender {
   Other = 'other',
 }
 
+export type EntryType = 'HealthCheck' | 'OccupationalHealthcare' | 'Hospital';
+
 export enum HealthCheckRating {
   'Healthy' = 0,
   'LowRisk' = 1,
@@ -55,6 +57,29 @@ export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+// Define special omit for unions
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
+// Define Entry without the 'id' property
+export type NewEntry = UnionOmit<Entry, 'id'>;
+
+export type NewBaseEntry = Omit<BaseEntry, 'id'>;
+
+export interface EntryFormValues {
+  description: string;
+  type: EntryType;
+  date: string;
+  specialist: string;
+  healthCheckRating: HealthCheckRating;
+  diagnosisCodes?: Array<Diagnosis['code']>;
+  employerName: string;
+  startDate: string;
+  endDate: string;
+  dischargeDate: string;
+  dischargeCriteria: string;
+}
 
 export interface Patient {
   id: string;

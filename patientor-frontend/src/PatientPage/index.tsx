@@ -6,11 +6,52 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { apiBaseUrl } from '../constants';
 import { useStateValue, setPatient, addEntry } from '../state';
-import { Patient, Gender, Entry } from '../types';
+import {
+  Patient,
+  Gender,
+  Entry,
+  NewEntry,
+  EntryFormValues,
+  NewBaseEntry,
+} from '../types';
 import EntryList from '../components/EntryList';
 import AddEntryModal from '../AddEntryModal';
-import { EntryFormValues } from '../AddEntryModal/AddEntryForm';
 
+const entryFormValuesToEntry = (values: EntryFormValues): NewEntry => {
+  const newBaseEntry: NewBaseEntry = {
+    description: values.description,
+    date: values.date,
+    specialist: values.specialist,
+    diagnosisCodes: values.diagnosisCodes,
+  };
+  switch (values.type) {
+    case 'HealthCheck':
+      return {
+        ...newBaseEntry,
+        type: values.type,
+        healthCheckRating: values.healthCheckRating,
+      };
+    case 'Hospital':
+      return {
+        ...newBaseEntry,
+        type: values.type,
+        discharge: {
+          date: values.dischargeDate,
+          criteria: values.dischargeCriteria,
+        },
+      };
+    case 'OccupationalHealthcare':
+      return {
+        ...newBaseEntry,
+        type: values.type,
+        employerName: values.employerName,
+        sickLeave:
+          values.startDate && values.endDate
+            ? { startDate: values.startDate, endDate: values.endDate }
+            : undefined,
+      };
+  }
+};
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
@@ -45,10 +86,11 @@ const PatientPage = () => {
   };
 
   const submitNewEntry = async (values: EntryFormValues) => {
+    const entryToSend: NewEntry = entryFormValuesToEntry(values);
     try {
       const { data: newEntry } = await axios.post<Entry>(
         `${apiBaseUrl}/patients/${id}/entries`,
-        values
+        entryToSend
       );
       dispatch(addEntry(newEntry));
       closeModal();
